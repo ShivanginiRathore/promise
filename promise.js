@@ -1,44 +1,40 @@
-const details = [];
+const details = [{title:'POST2'},{title : 'POST3'}];
 
-function createPost(){
-    return new Promise ((resolve, reject) => {
+const posts = async () => {
+    const createPost = new Promise((resolve, reject) => {
         setTimeout(() =>{
-            // let date = new Date();
-            details.push({title:'POST1'});
+            details.push({title:'POST4'});
             resolve(details);
-        },1000)
+        },3000)
     })
+    const getPost = await createPost;
+
+    const deletePost = new Promise ((resolve, reject) => resolve(details.pop()));
+
+    const updateLastUserActivityTime = new Promise((resolve, reject) => resolve(`User Last Activity time ${new Date().getTime()}`));
+
+    const [deletedPost , activeTime] = await Promise.all([deletePost, updateLastUserActivityTime]);
+
+    console.log(`The Deleted post is - ${deletedPost.title}, ${activeTime}`);
+
+
 }
 
-function updateLastUserActivityTime(){
-    return new Promise((resolve, reject)=>{
-        setTimeout(() =>{
-            if(details.length > 0){
-                let date = new Date();
-                resolve(`User Last Activity time ${date.getTime()}  `);
-            } else {
-                reject('ERROR');
-            }
-            
-        },1000)
-    })
-}
+posts().then(arr => {
+    // arr.forEach(element => {
+    //     console.log(element);
+    // });
 
-function deletePost(){
-    return new Promise ((resolve, reject) => {
-        setTimeout(() =>{
-            // let date = new Date();
-            
-            resolve(details.pop());
-        },1000)
-    })
-}
+    console.log(arr);
 
-const prom1 = createPost();
-// .then(console.log(details))
-const prom2 = updateLastUserActivityTime();
-// .then(updateLastUserActivityTime)
-// .then(mes => console.log(mes))
-// const prom3 = deletePost();
-Promise.all([prom1,prom2]).then(mes => console.log(mes));
+});
+
+
+// const prom1 = createPost();
+// // .then(console.log(details))
+// const prom2 = updateLastUserActivityTime();
+// // .then(updateLastUserActivityTime)
+// // .then(mes => console.log(mes))
+// // const prom3 = deletePost();
+// Promise.all([prom1,prom2]).then(mes => console.log(mes));
 
